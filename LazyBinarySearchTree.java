@@ -77,15 +77,25 @@ public class LazyBinarySearchTree {
             
             //insert TreeNode at leaf (leftNode & rightNode = null) no duplicates, if node is deleted undelete node, return logic of inserting a node
             public static boolean insert(int k) throws IllegalArgumentException {
-                if(root = null) {
-                    root.setKey(k);
-                    return true;
+                if(k <= 0 && k > 99) {
+                    throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
+                else {
+                    //insert the new node
+                }
+                
                 return false;
             }
 
             //does not physically delete, instead marks as logically deleted | do nothing if already deleted or not in tree | return whether value was deleted
             public static boolean delete(int k) throws IllegalArgumentException {
+                if(k <= 0 && k > 99) {
+                    throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+                }
+                else {
+                    //delete the node
+                }
+                
                 return false;
             }
 
@@ -102,6 +112,12 @@ public class LazyBinarySearchTree {
             }
 
             public static boolean contains(int k) throws IllegalArgumentException {
+                if(k <= 0 && k > 99) {
+                    throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+                }
+                else {
+                    //search for the node
+                }
                 return false;
             }
 
