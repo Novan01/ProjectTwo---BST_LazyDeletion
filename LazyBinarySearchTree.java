@@ -64,7 +64,7 @@ public class LazyBinarySearchTree {
                         this.rightChild = right;
                     }
 
-                    //set node deletion status
+                    //set node deletion status true means deleted false means not deleted
                     public void setStatus(boolean status) {
                         this.deleted = status;
                     }
@@ -120,7 +120,6 @@ public class LazyBinarySearchTree {
             }
 
             public boolean insert(int k) throws IllegalArgumentException {
-                boolean inserted = false;
                 if(k <= 0 || k > 99) {
                     throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
@@ -136,16 +135,31 @@ public class LazyBinarySearchTree {
                 
             }
 
+            public  boolean delete(TreeNode ptr, int k) throws IllegalArgumentException {
+                //traverse down the left side of the tree
+                if(k < ptr.getKey()) {
+                    if(ptr.getLeftNode() != null) {
+                        return delete(ptr.getLeftNode(), k);
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
             //does not physically delete, instead marks as logically deleted | do nothing if already deleted or not in tree | return whether value was deleted
-            public static boolean delete(int k) throws IllegalArgumentException {
+            public  boolean delete(int k) throws IllegalArgumentException {
                 if(k <= 0 && k > 99) {
                     throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
                 else {
-                    //delete the node
+                    if(this.root.getKey() == k) {
+                        this.root.setStatus(true);
+                        return true;
+                    }
+                    else {
+                        return delete(this.root, k);
+                    }
                 }
-                
-                return false;
             }
 
             //retrun value of min non delted element or -1 if not present
@@ -174,7 +188,8 @@ public class LazyBinarySearchTree {
             //pre order traversal and prints out each element of the tree
             public String toString() {
                 //return the value of the key as a string 
-                return String.valueOf(this.key); 
+                String preorder = "";
+                return preorder;
             }
 
             public static int height(TreeNode leaf) {
