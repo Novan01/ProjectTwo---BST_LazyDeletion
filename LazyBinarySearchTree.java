@@ -16,6 +16,14 @@ public class LazyBinarySearchTree {
                         this.nodeHeight = 1;
                     }   
 
+                    public TreeNode() {
+                        this.key = 0;
+                        this.leftChild = null;
+                        this.rightChild = null;
+                        this.deleted = false;
+                        this.nodeHeight = 1;
+                    }   
+
                     /*
                      * Getters
                      */
@@ -74,10 +82,12 @@ public class LazyBinarySearchTree {
                         this.nodeHeight = height;
                     }
             
-
             //insert TreeNode at leaf (leftNode & rightNode = null) no duplicates, if node is deleted undelete node, return logic of inserting a node
             public static boolean insert(int k) throws IllegalArgumentException {
-                
+                if(root = null) {
+                    root.setKey(k);
+                    return true;
+                }
                 return false;
             }
 
