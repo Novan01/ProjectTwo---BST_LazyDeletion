@@ -14,8 +14,7 @@ public class LazyBinarySearchTree {
                         this.rightChild = null;
                         this.deleted = false;
                         this.nodeHeight = 1;
-                    }   
-
+                    }
 
                     /*
                      * Getters
@@ -74,17 +73,67 @@ public class LazyBinarySearchTree {
                     public void setHeight(int height) {
                         this.nodeHeight = height;
                     }
+            }
+
+            public TreeNode root;
+
+            public LazyBinarySearchTree() {
+                this.root = null;
+            }
+
             
             //insert TreeNode at leaf (leftNode & rightNode = null) no duplicates, if node is deleted undelete node, return logic of inserting a node
-            public static boolean insert(int k) throws IllegalArgumentException {
-                if(k <= 0 && k > 99) {
+
+            public boolean insertNode(TreeNode ptr, int k) {
+                if(k < ptr.getKey()) {
+                    if(ptr.getLeftNode() != null) {
+                        return insertNode(ptr.getLeftNode(), k);
+                    }
+                    else {
+                        ptr.setLeftNode(new TreeNode(k));
+                        return true;
+                    }
+                }
+                else if(k > ptr.getKey()) {
+                    if(ptr.getRightNode() != null) {
+                        return insertNode(ptr.getRightNode(), k);
+                    }
+                    else {
+                        ptr.setRightNode(new TreeNode(k));
+                        return true;
+                    }
+                }
+                else {
+                    if(ptr.getKey() == k) {
+                         //if the node is deleted then undelete it
+                        if(ptr.getStatus() == true) {
+                            ptr.setStatus(false);
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                   
+                }
+                return false;
+            }
+
+            public boolean insert(int k) throws IllegalArgumentException {
+                boolean inserted = false;
+                if(k <= 0 || k > 99) {
                     throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
                 else {
-                    //insert the new node
+                    if(this.root == null) {
+                        this.root = new TreeNode(k);
+                        return true;
+                    }
+                    else {
+                        return insertNode(this.root, k);
+                    }
                 }
                 
-                return false;
             }
 
             //does not physically delete, instead marks as logically deleted | do nothing if already deleted or not in tree | return whether value was deleted
@@ -143,6 +192,6 @@ public class LazyBinarySearchTree {
             }
 
 
-            }
+            
     
 }
