@@ -16,13 +16,6 @@ public class LazyBinarySearchTree {
                         this.nodeHeight = 1;
                     }   
 
-                    public TreeNode() {
-                        this.key = 0;
-                        this.leftChild = null;
-                        this.rightChild = null;
-                        this.deleted = false;
-                        this.nodeHeight = 1;
-                    }   
 
                     /*
                      * Getters
