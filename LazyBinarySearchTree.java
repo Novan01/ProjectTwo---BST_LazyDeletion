@@ -116,6 +116,7 @@ public class LazyBinarySearchTree {
                     }
                    
                 }
+                ptr.setHeight(1 + Math.max(height(ptr.getLeftNode()), height(ptr.getRightNode())));
                 return false;
             }
 
@@ -138,17 +139,41 @@ public class LazyBinarySearchTree {
             public  boolean delete(TreeNode ptr, int k) throws IllegalArgumentException {
                 //traverse down the left side of the tree
                 if(k < ptr.getKey()) {
-                    if(ptr.getLeftNode() != null) {
+                    if(ptr.getLeftNode() != null && ptr.getKey() != k) {
                         return delete(ptr.getLeftNode(), k);
                     }
                     else {
-                        return false;
+                        if(k == ptr.getKey()) {
+                            ptr.setStatus(true);
+                            return true;
+                        }
+                        
                     }
                 }
+                else if(k > ptr.getKey()) {
+                    if(ptr.getRightNode() != null && ptr.getKey() != k) {
+                        return delete(ptr.getRightNode(), k);
+                    }
+                    else {
+                        if(k == ptr.getKey()) {
+                            ptr.setStatus(true);
+                            return true;
+                        }
+                    }
+                }
+                else {
+                    if(ptr.getKey() == k) {
+                        if(ptr.getStatus() == true) {
+                            return false;
+                        }
+                    }
+                }
+
+                return false;
             }
             //does not physically delete, instead marks as logically deleted | do nothing if already deleted or not in tree | return whether value was deleted
             public  boolean delete(int k) throws IllegalArgumentException {
-                if(k <= 0 && k > 99) {
+                if(k <= 0 || k > 99) {
                     throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
                 else {
@@ -174,14 +199,51 @@ public class LazyBinarySearchTree {
                 return max;
             }
 
-            public static boolean contains(int k) throws IllegalArgumentException {
-                if(k <= 0 && k > 99) {
+            public boolean contains(TreeNode ptr, int k) throws IllegalArgumentException {
+                if(k <= 0 || k > 99) {
                     throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
                 }
                 else {
-                    //search for the node
+                    if(k < ptr.getKey()) {
+                        if(ptr.getLeftNode() != null) {
+                            return contains(ptr.getLeftNode(), k);
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else if(k > ptr.getKey()) {
+                        if(ptr.getRightNode() != null) {
+                            return contains(ptr.getRightNode(), k);
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else {
+                        if(ptr.getStatus() == true) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    
                 }
-                return false;
+            }
+
+            public boolean contains( int k) throws IllegalArgumentException {
+                if(k <= 0 || k > 99) {
+                    throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+                }
+                else {
+                    if(this.root != null) {
+                        return contains(this.root, k);
+                    }
+                    else {
+                        return false;
+                    }
+                }
             }
 
             @Override
@@ -192,6 +254,7 @@ public class LazyBinarySearchTree {
                 return preorder;
             }
 
+            //returns the height of the farthest leaf
             public static int height(TreeNode leaf) {
                 if(leaf == null) {
                     return 0;
@@ -201,6 +264,7 @@ public class LazyBinarySearchTree {
                 }
             }
 
+            //counts all elements in the tree
             public int size() {
                 int size = 0;
                 return size;
