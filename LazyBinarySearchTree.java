@@ -48,12 +48,6 @@ public class LazyBinarySearchTree {
         /*
          * Setters
          */
-
-        // set node key
-        public void setKey(int k) {
-            this.key = k;
-        }
-
         // set left child node ptr
         public void setLeftNode(TreeNode left) {
             this.leftChild = left;
