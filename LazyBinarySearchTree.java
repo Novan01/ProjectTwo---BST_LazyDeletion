@@ -117,7 +117,7 @@ public class LazyBinarySearchTree {
 
     public boolean insert(int k) throws IllegalArgumentException {
         if (k <= 0 || k > 99) {
-            throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+            throw new IllegalArgumentException("Error in insert: IllegalArgumentException raised");
         } else {
             if (this.root == null) {
                 this.root = new TreeNode(k);
@@ -133,47 +133,49 @@ public class LazyBinarySearchTree {
     // if already deleted or not in tree | return whether value was deleted
     public boolean delete(TreeNode ptr, int k) throws IllegalArgumentException {
         // traverse down the left side of the tree
-        if (k < ptr.getKey()) {
-            if (ptr.getLeftNode() != null && ptr.getLeftNode().getKey() != k) {
-                return delete(ptr.getLeftNode(), k);
-            } else {
-                if (k == ptr.getLeftNode().getKey()) {
-                    ptr.getLeftNode().setStatus(true);
-                    return true;
+        if (k <= 0 || k > 99) {
+            throw new IllegalArgumentException("Error in contains: IllegalArgumentException raised");
+        } 
+        else {
+            if (k < ptr.getKey()) {
+                if (ptr.getLeftNode() != null) {
+                    return delete(ptr.getLeftNode(), k);
+                } 
+                else {
+                    return false;
                 }
-
-            }
-        } else if (k > ptr.getKey()) {
-            if (ptr.getRightNode() != null && ptr.getRightNode().getKey() != k) {
-                return delete(ptr.getRightNode(), k);
-            } else {
-                if (k == ptr.getRightNode().getKey()) {
+            } 
+            else if (k > ptr.getKey()) {
+                if (ptr.getRightNode() != null && ptr.getRightNode().getKey() != k) {
+                    return delete(ptr.getRightNode(), k);
+                } 
+                else {
+                    return false;
+                }
+            } 
+            else {
+                if (ptr.getKey() == k) {
+                    if (ptr.getStatus() == true) {
+                        return false;
+                    }
                     ptr.setStatus(true);
                     return true;
                 }
             }
-        } else {
-            if (ptr.getKey() == k) {
-                if (ptr.getStatus() == true) {
-                    return false;
-                }
-            }
+            return false;
         }
-
-        return false;
     }
 
     // does not physically delete, instead marks as logically deleted | do nothing
     // if already deleted or not in tree | return whether value was deleted
     public boolean delete(int k) throws IllegalArgumentException {
         if (k <= 0 || k > 99) {
-            throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+            throw new IllegalArgumentException("Error in delete: IllegalArgumentException raised");
         } else {
-            if (this.root.getKey() == k) {
-                this.root.setStatus(true);
-                return true;
-            } else {
+            if (this.root != null) {
                 return delete(this.root, k);
+            } else {
+                return false;
             }
         }
     }
@@ -246,7 +248,7 @@ public class LazyBinarySearchTree {
 
     public boolean contains(TreeNode ptr, int k) throws IllegalArgumentException {
         if (k <= 0 || k > 99) {
-            throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+            throw new IllegalArgumentException("Error in contains: IllegalArgumentException raised");
         } else {
             if (k < ptr.getKey()) {
                 if (ptr.getLeftNode() != null && ptr.getLeftNode().getKey() == k
@@ -275,7 +277,7 @@ public class LazyBinarySearchTree {
 
     public boolean contains(int k) throws IllegalArgumentException {
         if (k <= 0 || k > 99) {
-            throw new IllegalArgumentException("Please enter a number between 1 and 99, [1,99]");
+            throw new IllegalArgumentException("Error in contains: IllegalArgumentException raised");
         } else {
             if (this.root != null) {
                 return contains(this.root, k);
@@ -321,16 +323,18 @@ public class LazyBinarySearchTree {
             for(int i = 0; i < size; i++) {
                 TreeNode ptr = h.get(i);
                 h.remove(i);
-                if(ptr.getLeftNode() != null) {
+                if(ptr.getLeftNode() != null && ptr.getLeftNode().getStatus() != true) {
                     h.add(ptr.getLeftNode());
                 }
-                if(ptr.getRightNode() != null) {
+                if(ptr.getRightNode() != null && ptr.getRightNode().getStatus() != true ) {
                     h.add(ptr.getRightNode());
                 }
             }
             height++;
         }
         return height;
+           
+
     }
 
     // counts all elements in the tree
