@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class LazyBinarySearchTree {
 
     private class TreeNode {
@@ -310,12 +312,25 @@ public class LazyBinarySearchTree {
     }
 
     // returns the height of the farthest leaf
-    public static int height(TreeNode leaf) {
-        if (leaf == null) {
-            return 0;
-        } else {
-            return leaf.getHeight();
+    public int height(TreeNode root) {
+        ArrayList<TreeNode> h = new ArrayList<TreeNode>();
+        h.add(root);
+        int height = 0;
+        while(!h.isEmpty()) {
+            int size = h.size();
+            for(int i = 0; i < size; i++) {
+                TreeNode ptr = h.get(i);
+                h.remove(i);
+                if(ptr.getLeftNode() != null) {
+                    h.add(ptr.getLeftNode());
+                }
+                if(ptr.getRightNode() != null) {
+                    h.add(ptr.getRightNode());
+                }
+            }
+            height++;
         }
+        return height;
     }
 
     // counts all elements in the tree
